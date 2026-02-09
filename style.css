@@ -1,0 +1,340 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+  background: #04060d;
+  color: #eef2ff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 1.75rem 3rem 1.25rem;
+  background: radial-gradient(circle at top left, rgba(90, 120, 255, 0.3), transparent 60%),
+    linear-gradient(140deg, rgba(2, 8, 28, 0.96), rgba(11, 20, 48, 0.95));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+  font-size: 2.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+header p {
+  margin-top: 0.5rem;
+  color: rgba(240, 244, 255, 0.72);
+  max-width: 42rem;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: rgba(122, 208, 255, 0.7);
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 1rem 1.75rem;
+}
+
+.hud div {
+  text-align: right;
+}
+
+.hud span {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(240, 244, 255, 0.6);
+}
+
+.hud strong {
+  font-size: 1.4rem;
+}
+
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 3.2fr) minmax(260px, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 3rem 2rem;
+}
+
+.viewport {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  min-height: 560px;
+  background: radial-gradient(circle at top, rgba(79, 125, 255, 0.2), rgba(5, 7, 15, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(4, 7, 20, 0.6);
+}
+
+.skybox {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 20%, rgba(92, 185, 255, 0.35), transparent 55%),
+    linear-gradient(180deg, rgba(7, 19, 45, 0.92), rgba(5, 7, 15, 0.98));
+}
+
+#map,
+#overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#map {
+  background: radial-gradient(circle at 20% 20%, rgba(40, 90, 180, 0.8), rgba(5, 10, 25, 0.95));
+}
+
+#overlay {
+  pointer-events: none;
+}
+
+.reticle {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(121, 214, 255, 0.6);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 30px rgba(84, 168, 255, 0.6);
+}
+
+.plane-stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  perspective: 900px;
+}
+
+.plane {
+  position: relative;
+  width: 180px;
+  height: 60px;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+}
+
+.fuselage {
+  position: absolute;
+  inset: 18px 40px;
+  background: linear-gradient(90deg, #d7e1f6, #7f8da5 70%, #384058);
+  border-radius: 30px;
+  transform: translateZ(20px);
+}
+
+.wing {
+  position: absolute;
+  width: 120px;
+  height: 20px;
+  top: 20px;
+  background: linear-gradient(90deg, #c5d2f0, #515c74);
+  transform: translateZ(10px) skewX(-15deg);
+}
+
+.wing.left {
+  left: -20px;
+  transform-origin: right center;
+}
+
+.wing.right {
+  right: -20px;
+  transform-origin: left center;
+}
+
+.tail {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  background: linear-gradient(180deg, #c5d2f0, #46506a);
+  transform: translateZ(25px) skewY(-20deg);
+}
+
+.tail.left {
+  left: 30px;
+}
+
+.tail.right {
+  right: 30px;
+}
+
+.engine {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  bottom: 8px;
+  background: radial-gradient(circle at 30% 30%, #f7fbff, #5b657a 70%);
+  border-radius: 50%;
+  transform: translateZ(15px);
+}
+
+.engine.left {
+  left: 50px;
+}
+
+.engine.right {
+  right: 50px;
+}
+
+.afterburner {
+  position: absolute;
+  width: 40px;
+  height: 12px;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%) translateZ(8px);
+  background: radial-gradient(circle, rgba(255, 196, 92, 0.9), rgba(255, 86, 46, 0.1));
+  border-radius: 50%;
+  opacity: 0.25;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.afterburner.active {
+  opacity: 0.9;
+  box-shadow: 0 0 18px rgba(255, 140, 45, 0.9);
+}
+
+.speed-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.speed-lines span {
+  position: absolute;
+  width: 2px;
+  height: 40px;
+  background: rgba(130, 217, 255, 0.6);
+  animation: streak 1.6s linear infinite;
+}
+
+@keyframes streak {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(140%);
+    opacity: 0;
+  }
+}
+
+aside {
+  background: rgba(9, 14, 33, 0.9);
+  padding: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+aside h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+aside ul {
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+aside li {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(240, 244, 255, 0.8);
+}
+
+.status,
+.tip,
+.throttle-panel {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.status h3,
+.tip h3,
+.throttle-panel h3 {
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+.throttle-panel {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.throttle-bar {
+  height: 120px;
+  border-radius: 16px;
+  background: rgba(12, 20, 45, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.throttle-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 175, 85, 0.9), rgba(255, 88, 48, 0.9));
+  box-shadow: 0 -8px 30px rgba(255, 120, 60, 0.6);
+  transition: height 0.2s ease;
+}
+
+code {
+  color: #9dc6ff;
+}
+
+@media (max-width: 1100px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .hud {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    text-align: left;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
